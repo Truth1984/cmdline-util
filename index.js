@@ -2,6 +2,8 @@ const u = require("awadau");
 const { spawnSync } = require("child_process");
 const readline = require("readline");
 const { Writable } = require("stream");
+const iniParser = require("ini");
+const yamlParser = require("yamljs");
 
 let cu = {};
 
@@ -42,14 +44,6 @@ cu.cmdsq = (question, privateAnswer = false) => {
       resolve(answer);
     });
   });
-};
-
-/**
- * @param {*} str using eval, dangerous
- * @returns
- */
-cu.parseJson = (str) => {
-  return u.stringToJson(eval("(" + str + ")"));
 };
 
 /**
@@ -107,43 +101,54 @@ cu.multiSelect = async (listsOrStr, index = 0, logList = true) => {
   });
 };
 
-cu.shellParse = async (output, separator = " ", skipLines = 0) => {
-  let lines = output.split("\n");
-  lines.splice(0, skipLines);
+/**
+ * @param {string} string using eval, dangerous
+ * @returns
+ */
+cu.jsonParser = (string) => {
+  return u.stringToJson(eval("(" + string + ")"));
+};
 
-  let headers = lines.shift();
-  let splitHeader = headers.split(separator);
+cu.yamlParser = yamlParser.parse;
 
-  let limits = [];
+cu.yamlWriter = yamlParser.stringify;
 
-  for (let i = 0; i < splitHeader.length; i++) {
-    let colName = splitHeader[i].trim();
+cu.iniParser = iniParser.parse;
 
-    if (colName !== "") {
-      limits.push({ label: colName, start: headers.indexOf(colName) });
-    }
+cu.iniWriter = iniParser.encode;
+
+/**
+ *
+ * @param {string} output command output
+ * @param {{separator:RegExp, skipHead:0, skipTail:0, selfProvideHeader?:[], lineSpliter:"\n" }} option
+ * separator set to /\s+/
+ *
+ * skip auto header parsing if `selfProvideHeader` Present
+ */
+cu.shellParser = (output, option = {}) => {
+  let defaultOption = { separator: /\s+/, skipHead: 0, skipTail: 0, lineSpliter: "\n" };
+  option = u.mapMergeDeep(defaultOption, option);
+
+  let { separator, skipHead, skipTail, selfProvideHeader, lineSpliter } = option;
+
+  let lines = output.split(lineSpliter);
+  lines.splice(0, skipHead);
+  lines.splice(-skipTail - 1);
+
+  console.log(lines);
+
+  let splitHeader = selfProvideHeader ? selfProvideHeader : lines.shift().split(separator);
+
+  let result = [];
+  for (let i of lines) {
+    if (i == "") continue;
+    let lineResult = {};
+    let lineSection = i.split(separator);
+    for (let j in splitHeader) lineResult[splitHeader[j]] = lineSection[j];
+
+    result.push(lineResult);
   }
-
-  let table = lines.map((line) => {
-    if (line) {
-      let result = {};
-
-      for (let key in limits) {
-        let header = limits[key];
-        let nextKey = parseInt(key, 10) + 1;
-        let start = key === "0" ? 0 : header.start;
-        let end = limits[nextKey] ? limits[nextKey].start - start : undefined;
-
-        result[header.label] = line.substr(start, end).trim();
-      }
-
-      return result;
-    }
-  });
-
-  table[table.length - 1] === undefined && table.pop();
-
-  return table;
+  return result;
 };
 
 module.exports = cu;

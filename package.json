@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/Truth1984/cmdline-util#readme",
   "dependencies": {
-    "awadau": "^1.1.6"
+    "awadau": "^1.1.6",
+    "ini": "^2.0.0",
+    "yamljs": "^0.3.0"
   }
 }

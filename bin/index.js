@@ -12,4 +12,13 @@ let p = async () => {
 
 // p();
 
-cu.multiSelect(["l2", "w4", "h7"]).then((v) => console.log("result", v));
+// cu.multiSelect(["l2", "w4", "h7"]).then((v) => console.log("result", v));
+
+const fs = require("fs");
+
+// console.log(ini.parse(fs.readFileSync(__dirname + "/v.ini").toString()));
+
+let tops = cu.cmds("top -bn1 | head -n 15");
+// console.log(tops);
+let sp = cu.shellParser(tops, { skipHead: 6, skipTail: 0 });
+console.log(sp, u.len(sp), sp[u.len(sp) - 1]);

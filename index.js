@@ -135,8 +135,6 @@ cu.shellParser = (output, option = {}) => {
   lines.splice(0, skipHead);
   lines.splice(-skipTail - 1);
 
-  console.log(lines);
-
   let splitHeader = selfProvideHeader ? selfProvideHeader : lines.shift().split(separator);
 
   let result = [];

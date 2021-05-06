@@ -2,8 +2,6 @@
 const cu = require("../index");
 const u = require("awadau");
 
-console.log("hi");
-
 let p = async () => {
   await cu.cmdsq("your phone?").then((ans) => console.log("phone", ans));
 
@@ -13,10 +11,6 @@ let p = async () => {
 // p();
 
 // cu.multiSelect(["l2", "w4", "h7"]).then((v) => console.log("result", v));
-
-const fs = require("fs");
-
-// console.log(ini.parse(fs.readFileSync(__dirname + "/v.ini").toString()));
 
 let tops = cu.cmds("top -bn1 | head -n 15");
 // console.log(tops);

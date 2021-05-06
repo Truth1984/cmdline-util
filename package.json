@@ -1,7 +1,7 @@
 {
   "name": "cmdline-util",
   "version": "1.0.0",
-  "description": "",
+  "description": "utils for command line application",
   "main": "index.js",
   "scripts": {
     "test": "./bin/index.js"
@@ -12,7 +12,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Truth1984/cmdline-util/issues"
   },

@@ -27,11 +27,12 @@ cu.cmds = (scripts) => {
  * @param {boolean} privateAnswer mask answer
  */
 cu.cmdsq = (question, privateAnswer = false) => {
+  let muted = false;
   const rl = readline.createInterface({
     input: process.stdin,
     output: new Writable({
       write: (chunk, encoding, callback) => {
-        if (!privateAnswer) process.stdout.write(chunk, encoding);
+        if (!muted) process.stdout.write(chunk, encoding);
         callback();
       },
     }),
@@ -43,6 +44,7 @@ cu.cmdsq = (question, privateAnswer = false) => {
       rl.close();
       resolve(answer);
     });
+    muted = privateAnswer;
   });
 };
 

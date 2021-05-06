@@ -1,0 +1,23 @@
+{
+  "name": "cmdline-util",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "./bin/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Truth1984/cmdline-util.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Truth1984/cmdline-util/issues"
+  },
+  "homepage": "https://github.com/Truth1984/cmdline-util#readme",
+  "dependencies": {
+    "awadau": "^1.1.6"
+  }
+}

@@ -58,8 +58,14 @@ using `ini` npm package
 
 output: cmdline output
 
-option: `{{separator:RegExp, skipHead:0, skipTail:0, selfProvideHeader?:[], lineSpliter:"\n" }}`
+option: `{{separator:RegExp, skipHead:0, skipTail:0, selfProvideHeader?:[], lineSpliter:"\n", REST:false }}`
 
 i.e. `cu.shellParser(cu.cmds("top -bn1 | head -n 15"), { skipHead: 6, skipTail: 0 })`
 
 notice: this is the top command for `centos`, `windows` does not have top and `mac`'s top is different from centos, so you may want to change skipHead variable
+
+skip auto header parsing if `selfProvideHeader` Present (can also manually add `$REST$` to the Header)
+
+set REST to true, then it adds `$REST$` to the end of array for parsing uncatched segments, $REST$ = '' if there were no remaining
+
+example `ps -u` -> [...{...COMMAND:"node", "$REST$":"index.js --experimental-worker"}]

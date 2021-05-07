@@ -122,13 +122,17 @@ cu.iniWriter = iniParser.encode;
 /**
  *
  * @param {string} output command output
- * @param {{separator:RegExp, skipHead:0, skipTail:0, selfProvideHeader?:[], lineSpliter:"\n" }} option
+ * @param {{separator:RegExp, skipHead:0, skipTail:0, selfProvideHeader?:[], lineSpliter:"\n", REST:false }} option
  * separator set to /\s+/
  *
- * skip auto header parsing if `selfProvideHeader` Present
+ * skip auto header parsing if `selfProvideHeader` Present (can also manually add `$REST$` to the Header)
+ *
+ * if REST is true, add `$REST$` to the end of array for parsing uncatched segments, $REST$ = '' if there were no remaining
+ *
+ * example `ps -u` -> [...{...COMMAND:"node", "$REST$":"index.js --experimental-worker"}]
  */
 cu.shellParser = (output, option = {}) => {
-  let defaultOption = { separator: /\s+/, skipHead: 0, skipTail: 0, lineSpliter: "\n" };
+  let defaultOption = { separator: /\s+/, skipHead: 0, skipTail: 0, lineSpliter: "\n", REST: false };
   option = u.mapMergeDeep(defaultOption, option);
 
   let { separator, skipHead, skipTail, selfProvideHeader, lineSpliter } = option;
@@ -138,13 +142,19 @@ cu.shellParser = (output, option = {}) => {
   lines.splice(-skipTail - 1);
 
   let splitHeader = selfProvideHeader ? selfProvideHeader : lines.shift().split(separator);
+  splitHeader = u.arrayAdd(splitHeader, option.REST ? "$REST$" : []);
 
   let result = [];
   for (let i of lines) {
     if (i == "") continue;
     let lineResult = {};
     let lineSection = i.split(separator);
+    let shl = splitHeader.length;
     for (let j in splitHeader) lineResult[splitHeader[j]] = lineSection[j];
+    if (splitHeader[shl - 1] == "$REST$") {
+      if (lineResult[splitHeader[shl - 1]] == undefined) lineResult[splitHeader[shl - 1]] = "";
+      lineResult[splitHeader[shl - 1]] += lineSection.slice(shl);
+    }
 
     result.push(lineResult);
   }

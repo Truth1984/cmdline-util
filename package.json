@@ -1,6 +1,6 @@
 {
   "name": "cmdline-util",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "utils for command line application",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/Truth1984/cmdline-util#readme",
   "dependencies": {
-    "awadau": "^1.1.6",
+    "awadau": "^1.1.7",
     "ini": "^2.0.0",
     "yamljs": "^0.3.0"
   }

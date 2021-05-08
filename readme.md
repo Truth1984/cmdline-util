@@ -15,6 +15,12 @@ console.log(cu.shellParser(topResult, { skipHead: 6, skipTail: 2 }));
 
 taking command line input and return command result as string
 
+#### async cmdfull(scripts, simple = true) => string | {}
+
+if simple were true: return stdout; else return full info, including status code
+
+example: `cmdfull("exit 1",false).catch(e=>e.status) // 1`
+
 #### async cmdsq(question, privateAnswer = false) => string
 
 interactive, return answer as string

@@ -9,7 +9,7 @@ let cu = {};
 
 /**
  * simple cmd
- * @param {*} scripts
+ * @param {string} scripts
  */
 cu.cmds = (scripts) => {
   let cmdarray = scripts.split(" ");
@@ -19,6 +19,26 @@ cu.cmds = (scripts) => {
     encoding: "utf-8",
     env: process.env,
   }).stdout;
+};
+
+/**
+ *
+ * @param {string} scripts
+ * @param {boolean} simple true: return stdout; false: return full info, including status code
+ *
+ * example: cmdfull("exit 1",false).catch(e=>e.status) // 1
+ *
+ */
+cu.cmdfull = async (scripts, simple = true) => {
+  let cmdarray = scripts.split(" ");
+  let result = spawnSync(cmdarray.shift(), cmdarray, {
+    shell: true,
+    stdio: "pipe",
+    encoding: "utf-8",
+    env: process.env,
+  });
+  if (result.status == 0) return simple ? result.stdout : result;
+  return Promise.reject(simple ? result.stdout : result);
 };
 
 /**
@@ -152,8 +172,8 @@ cu.shellParser = (output, option = {}) => {
     let shl = splitHeader.length;
     for (let j in splitHeader) lineResult[splitHeader[j]] = lineSection[j];
     if (splitHeader[shl - 1] == "$REST$") {
-      if (lineResult[splitHeader[shl - 1]] == undefined) lineResult[splitHeader[shl - 1]] = "";
-      lineResult[splitHeader[shl - 1]] += lineSection.slice(shl);
+      if (lineResult["$REST$"] == undefined) lineResult["$REST$"] = "";
+      lineResult["$REST$"] += lineSection.slice(shl);
     }
 
     result.push(lineResult);

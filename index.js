@@ -26,6 +26,8 @@ cu.cmds = (scripts) => {
  * @param {string} scripts
  * @param {boolean} simple true: return stdout; false: return full info, including status code
  *
+ * reject if status > 0
+ *
  * example: cmdfull("exit 1",false).catch(e=>e.status) // 1
  *
  */

@@ -1,6 +1,6 @@
 {
   "name": "cmdline-util",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "utils for command line application",
   "main": "index.js",
   "scripts": {

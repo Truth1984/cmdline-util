@@ -26,4 +26,4 @@ console.log(ps);
 let psp = cu.shellParser(ps, { separator: /\s{1,}/, REST: true });
 console.log(psp);
 
-cu.cmdfull("echo hi; exit 1").then(console.log);
+cu.cmdfull("echo hi; exit 1").catch(console.log);

@@ -17,6 +17,8 @@ taking command line input and return command result as string
 
 #### async cmdfull(scripts, simple = true) => string | {}
 
+does not auto print value to terminal
+
 if simple were true: return stdout; else return full info, including status code
 
 reject if status > 0
@@ -74,6 +76,6 @@ notice: this is the top command for `centos`, `windows` does not have top and `m
 
 skip auto header parsing if `selfProvideHeader` Present (can also manually add `$REST$` to the Header)
 
-set REST to true, then it adds `$REST$` to the end of array for parsing uncatched segments, $REST$ = '' if there were no remaining
+set REST to true, then it adds `$REST$` to the end of array for parsing uncatched segments, $REST$ = [] if there were no remaining
 
-example `ps -u` -> [...{...COMMAND:"node", "$REST$":"index.js --experimental-worker"}]
+example `ps -u` -> [...{...COMMAND:"node", "$REST$":["index.js", "--experimental-worker"]}]

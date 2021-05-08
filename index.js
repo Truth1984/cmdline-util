@@ -149,9 +149,9 @@ cu.iniWriter = iniParser.encode;
  *
  * skip auto header parsing if `selfProvideHeader` Present (can also manually add `$REST$` to the Header)
  *
- * if REST is true, add `$REST$` to the end of array for parsing uncatched segments, $REST$ = '' if there were no remaining
+ * if REST is true, add `$REST$` to the end of array for parsing uncatched segments, $REST$ = [] if there were no remaining
  *
- * example `ps -u` -> [...{...COMMAND:"node", "$REST$":"index.js --experimental-worker"}]
+ * example `ps -u` -> [...{...COMMAND:"node", "$REST$":["index.js", "--experimental-worker"]}]
  */
 cu.shellParser = (output, option = {}) => {
   let defaultOption = { separator: /\s+/, skipHead: 0, skipTail: 0, lineSpliter: "\n", REST: false };
@@ -174,8 +174,8 @@ cu.shellParser = (output, option = {}) => {
     let shl = splitHeader.length;
     for (let j in splitHeader) lineResult[splitHeader[j]] = lineSection[j];
     if (splitHeader[shl - 1] == "$REST$") {
-      if (lineResult["$REST$"] == undefined) lineResult["$REST$"] = "";
-      lineResult["$REST$"] += lineSection.slice(shl);
+      if (lineResult["$REST$"] == undefined) lineResult["$REST$"] = [];
+      lineResult["$REST$"] = u.arrayAdd(lineResult["$REST$"], lineSection.slice(shl));
     }
 
     result.push(lineResult);

@@ -160,8 +160,7 @@ cu.shellParser = (output, option = {}) => {
   let { separator, skipHead, skipTail, selfProvideHeader, lineSpliter } = option;
 
   let lines = output.split(lineSpliter);
-  lines.splice(0, skipHead);
-  lines.splice(-skipTail - 1);
+  lines = u.arrayExtract(lines, skipHead, lines.length - skipTail);
 
   let splitHeader = selfProvideHeader ? selfProvideHeader : lines.shift().split(separator);
   splitHeader = u.arrayAdd(splitHeader, option.REST ? "$REST$" : []);

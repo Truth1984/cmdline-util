@@ -79,3 +79,11 @@ skip auto header parsing if `selfProvideHeader` Present (can also manually add `
 set REST to true, then it adds `$REST$` to the end of array for parsing uncatched segments, $REST$ = [] if there were no remaining
 
 example `ps -u` -> [...{...COMMAND:"node", "$REST$":["index.js", "--experimental-worker"]}]
+
+```js
+cu.shellParser(cu.cmds("docker ps", 1), {
+  skipHead: 1,
+  selfProvideHeader: ["CONTAINER ID", "IMAGE", "COMMAND", "CREATED", "STATUS", "PORTS", "NAMES"],
+  separator: /\s{2,80}/,
+});
+```

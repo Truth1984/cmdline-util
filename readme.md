@@ -58,7 +58,7 @@ string can be normal stringified json or object: i.e.
 
 #### yamlParser + yamlWriter
 
-using `yamljs` npm package
+using `yaml` npm package
 
 #### iniParser + iniWriter
 

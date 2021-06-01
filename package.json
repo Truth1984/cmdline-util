@@ -1,6 +1,6 @@
 {
   "name": "cmdline-util",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "utils for command line application",
   "main": "index.js",
   "scripts": {
@@ -20,6 +20,6 @@
   "dependencies": {
     "awadau": "^1.1.7",
     "ini": "^2.0.0",
-    "yamljs": "^0.3.0"
+    "yaml": "^1.10.2"
   }
 }

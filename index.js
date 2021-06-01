@@ -3,7 +3,7 @@ const { spawnSync } = require("child_process");
 const readline = require("readline");
 const { Writable } = require("stream");
 const iniParser = require("ini");
-const yamlParser = require("yamljs");
+const yamlParser = require("yaml");
 
 let cu = {};
 
@@ -137,7 +137,7 @@ cu.yamlParser = yamlParser.parse;
 
 cu.yamlWriter = yamlParser.stringify;
 
-cu.iniParser = iniParser.parse;
+cu.iniParser = iniParser.decode;
 
 cu.iniWriter = iniParser.encode;
 
